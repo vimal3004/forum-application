@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome, {{ user.username }}!</h1>
+    
+    <h2>Update Profile</h2>
+    <form method="POST" action="{{ url_for('update_profile') }}">
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user.email }}" required>
+        </div>
+        <div>
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio">{{ user.bio or '' }}</textarea>
+        </div>
+        <button type="submit">Update Profile</button>
+    </form>
+    
+    <h2>Create a New Post</h2>
+    <form method="POST" action="{{ url_for('create_post') }}">
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div>
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" required></textarea>
+        </div>
+        <button type="submit">Create Post</button>
+    </form>
+    
+    <h2>Recent Posts</h2>
+    {% for post in posts %}
+        <div>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.content }}</p>
+            <p>Likes: {{ post.likes }}</p>
+            <form method="GET" action="{{ url_for('like_post', post_id=post.id) }}">
+                <button type="submit">Like</button>
+            </form>
+        </div>
+    {% endfor %}
+{% endblock %}
